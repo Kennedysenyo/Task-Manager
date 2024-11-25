@@ -68,11 +68,11 @@ app.post("/tasks/edit/:id", async (req,res) => {
 
 // Delete a task 
 app.post("/tasks/delete/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
+  console.log(`Delete id: ${id}`)
   try {
-    const response = await axios.delete(`${API_URL}/tasks/${id}`);
-    const result = response.data;
-    console.log(result);
+    const response = await axios.delete(`${API_URL}/tasks/delete/${id}`);
+  
     res.redirect("/");
   } catch (error) {
     console.error("Failed to delete task", error.message);
@@ -80,6 +80,6 @@ app.post("/tasks/delete/:id", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on port ${port}`); 
 });
 

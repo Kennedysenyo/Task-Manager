@@ -28,12 +28,17 @@
   </div>   
  </main>
 
- <script>
-  document.getElementById("checkbox").addEventListener("change", function () {
-    if (this.checked) {
-      document.querySelector(".task-info").submit();
-    }
-  });
-</script>
+  <script>
+    const checkboxes = document.querySelectorAll("#checkbox");
+    checkboxes.forEach((checkbox, index) => {
+      checkbox.addEventListener("change", function () {
+        if (this.checked) {
+          
+          const form = this.closest(".task-info");
+          form.submit();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

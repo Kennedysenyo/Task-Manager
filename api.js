@@ -76,21 +76,23 @@ app.patch("/tasks/edit/:id", (req, res) => {
   }
 });
 
-app.delete("/tasks/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = tasks.findIndex(task => task.id === id);
+app.delete("/tasks/delete/:id", (req, res) => {
+  const id = parseInt(req.params.id); 
+  const index = tasks.findIndex(task => task.id === id); 
+  
+  console.log(`ID to delete: ${id}, Found index: ${index}`);
+  
   if (index > -1) {
-    tasks.splice(index, 1);
-    res.sendStatus(200);
-  }else {
-    res
-    .sendStatus(404)
-    .json({error: `No task found with id: ${id}`});
-  } 
+    console.log(`Deleted task: ${JSON.stringify(tasks[index])}`);
+    tasks.splice(index, 1); 
+    res.sendStatus(200); 
+  } else {
+    res.status(404).json({ error: `No task found with id: ${id}` });
+  }
 });
 
 app.listen(port, () => {
-  console.log(`API running port ${port}`);
+  console.log(`API running on port ${port}`);
 });
 
 
