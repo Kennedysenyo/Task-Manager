@@ -7,9 +7,9 @@ const port = 4000;
 const tasks = [
 {
   id: 1,
-  title: "Get Rich",
-  description: "Your family has been struggling for survival for long, help the situation!",
-  dueDate: "2024-11-24"
+  task: "Get Rich",
+  dueDate: "2024-11-24",
+  status: "false",
 },
 ];
 
@@ -36,9 +36,9 @@ app.post("/tasks", (req, res) => {
   const index = tasks.length;
   const newTask = {
     id: index + 1,
-    title: req.body.title,
-    description: req.body.description,
+    task: req.body.task,
     dueDate: req.body.dueDate,
+    status: "false",
   };
   tasks.push(newTask);
   res.json(tasks[index]);
@@ -50,9 +50,9 @@ app.put("/tasks/:id", (req, res) => {
   if (index > -1) {
     const updateTask = {
       id: id,
-      title: req.body.title || tasks[index].title,
-      description: req.body.description || tasks[index].description,
-      dueDate: req.body.dueDate || tasks[index].dueDate
+      title: req.body.task || tasks[index].title,
+      dueDate: req.body.dueDate || tasks[index].dueDate,
+      status: req.body.status || tasks[index].status,
     };
     tasks[index] = updateTask;
     res.json(tasks[index]);

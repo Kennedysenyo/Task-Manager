@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+
+ <main id="edit-page">
+
+  <h1>Edit Task</h1>
+  <div id="form-div">
+    <form action="/tasks/posts" method="POST">
+      <input type="text" name="task" placeholder="New Task">
+      <label for="date">Set Deadline: <input type="date" id="date" name="date"></label>
+      
+      <input type="submit" value="Submit"></input>
+    </form>
+  </div>
+   
+ </main>
+
+</body>
+</html>

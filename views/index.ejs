@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+
+  <main>
+   <a class="add-task" href="/tasks/posts">Add Task</a>
+  <h1>Today's Tasks</h1>
+  <div id="container">
+    <% tasks.forEach(task => {%>
+      <a href="/tasks/<%= task.id %>" class="task">
+        <div class="indicator"></div>
+        <div class="task-info">
+          <input type="checkbox" name="status" value="true">
+          <p><%= task.task %></p>
+        </div>
+        <div class="task-date">
+          <small>Deadline:</small>
+          <small><%= task.dueDate %></small>
+        </div>
+      </a>
+    <%});%>
+  </div>
+
+   
+ </main>
+
+</body>
+</html>

@@ -4,41 +4,42 @@ import axios from "axios";
 
 const app = express();
 const port = 3000;
-const API_URL = "localhost:4000"
+const API_URL = "http://localhost:4000";
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
+// Route to render main page
 app.get("/", async (req, res) => {
   try {
     const response = await axios.get(`${API_URL}/tasks`);
     const result = response.data;
-    res.render();
+    console.log(result)
+    res.render("index.ejs", {tasks: result});
   } catch (error) {
-    res.status(500).render();
+    res.status(500).json({ message: "Error fetching posts" });
   }
 });
 
 app.get("/tasks/:id", async (req, res) => {
-  const id = parsInt(req.body.id);
+  const id = parseInt(req.body.id);
   try{
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await axios.get(`${API_URL}/tasks/${id}`);
     const result = response.data;
-    res.render();
+    res.render("edit.ejs");
   } catch (error) {
     res.status(404).render()
   }
 });
 
-app.post("tasks/posts", async (req, res) => {
+app.post("/tasks/posts", async (req, res) => {
   try {
-    const response = await axios.put(`${API_URL}/tasks`, {
-      title: req.body.title,
-      description: req.body.description,
-      dueDate: req.body.dueDate
+    const response = await axios.post(`${API_URL}/tasks`, {
+      task: req.body.task,
+      dueDate: req.body.dueDate,
     });
     const result = response.data;
-    res.render()
+    res.render("index.ejs")
   } catch {
     res.status(500).render();
   }
@@ -46,15 +47,15 @@ app.post("tasks/posts", async (req, res) => {
 
 app.post("tasks/edit/:id", async (req,res) => {
   const id = req.params.id;
-  const title = req.body.title;
-  const description = req.body.description;
+  const task = req.body.task;
   const dueDate = req.body.dueDate;
+  const status = req.body.status;
 
   try {
     const response = await axios.put(`${API_URL}/tasks/${id}`, {
-      title: title,
-      description: description,
+      task: task,
       dueDate: dueDate,
+      status: status,
      });
      const result = response.data;
      res.render();
