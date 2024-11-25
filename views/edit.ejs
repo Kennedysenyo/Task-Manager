@@ -7,20 +7,25 @@
   <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body>
-
  <main id="edit-page">
-
   <h1>Edit Task</h1>
   <div id="form-div">
-    <form action="/tasks/posts" method="POST">
-      <input type="text" name="task" placeholder="New Task">
-      <label for="date">Set Deadline: <input type="date" id="date" name="date"></label>
+    <% if (locals.edit) {%> 
+    <form class="edit-form" action="/tasks/edit/<%= edit.id %>" method="POST">
+      <input type="text" name="task" placeholder="New Task" value="<%= edit.task %>">
+      <label for="date">Set Deadline: <input type="date" id="date" name="dueDate" value="<%= edit.dueDate %>"></label>
       
-      <input type="submit" value="Submit"></input>
+      <input type="submit" value="Save"></input>
     </form>
+    <%} else {%> 
+      <form class="edit-form" action="/tasks/add" method="POST">
+        <input type="text" name="task" placeholder="New Task">
+        <label for="date">Set Deadline: <input type="date" id="date" name="dueDate"></label>
+        
+        <input type="submit" value="Submit"></input>
+      </form>
+    <%}%>
   </div>
-   
  </main>
-
 </body>
 </html>

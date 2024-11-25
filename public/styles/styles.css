@@ -1,8 +1,6 @@
 body {
-  height: 100vh;
   display: flex;
   justify-content: center;
-  width: 100vw;
 }
 
 main {
@@ -46,7 +44,7 @@ input[type=checkbox] {
   margin-right: 10px;
 }
 
-.task-info,
+form.task-info,
 .task-date {
   display: flex;
   padding: 0 10px;
@@ -62,12 +60,11 @@ input[type=checkbox] {
   border: 1px solid #b0adad74;
 }
 
-/* Edit.ejs page */
 #form-div {
   height: 200px;
 }
 
-form {
+.edit-form {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -87,7 +84,7 @@ input[type=date] {
 .add-task,
 input[type=submit] {
   background-color: green;
-  color: white;
+  color: white !important;
   cursor: pointer;
 }
 

@@ -9,26 +9,31 @@
 <body>
 
   <main>
-   <a class="add-task" href="/tasks/posts">Add Task</a>
+   <a class="add-task" href="/tasks/new">Add Task</a>
   <h1>Today's Tasks</h1>
   <div id="container">
     <% tasks.forEach(task => {%>
       <a href="/tasks/<%= task.id %>" class="task">
         <div class="indicator"></div>
-        <div class="task-info">
-          <input type="checkbox" name="status" value="true">
+        <form class="task-info" action="/tasks/delete/<%= task.id %>" method="POST">
+          <input id="checkbox" type="checkbox" name="status" value="true">
           <p><%= task.task %></p>
-        </div>
+        </form>
         <div class="task-date">
           <small>Deadline:</small>
           <small><%= task.dueDate %></small>
         </div>
       </a>
     <%});%>
-  </div>
-
-   
+  </div>   
  </main>
 
+ <script>
+  document.getElementById("checkbox").addEventListener("change", function () {
+    if (this.checked) {
+      document.querySelector(".task-info").submit();
+    }
+  });
+</script>
 </body>
 </html>

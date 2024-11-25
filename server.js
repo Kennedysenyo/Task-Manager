@@ -14,60 +14,66 @@ app.get("/", async (req, res) => {
   try {
     const response = await axios.get(`${API_URL}/tasks`);
     const result = response.data;
-    console.log(result)
     res.render("index.ejs", {tasks: result});
   } catch (error) {
     res.status(500).json({ message: "Error fetching posts" });
   }
 });
 
+// Render page to add new task
+app.get("/tasks/new", (req, res) => {
+  res.render("edit.ejs");
+})
+
+// Get task by id
 app.get("/tasks/:id", async (req, res) => {
-  const id = parseInt(req.body.id);
+  const id = req.params.id;
   try{
     const response = await axios.get(`${API_URL}/tasks/${id}`);
     const result = response.data;
-    res.render("edit.ejs");
+    res.render("edit.ejs", {edit: result});
   } catch (error) {
     res.status(404).render()
   }
 });
 
-app.post("/tasks/posts", async (req, res) => {
+// Add new task
+app.post("/tasks/add", async (req, res) => {
+  console.log(req.body)
   try {
-    const response = await axios.post(`${API_URL}/tasks`, {
+    const response = await axios.post(`${API_URL}/tasks/add`, {
       task: req.body.task,
       dueDate: req.body.dueDate,
     });
     const result = response.data;
-    res.render("index.ejs")
+    console.log(result);
+    res.redirect("/")
   } catch {
     res.status(500).render();
   }
 });
 
-app.post("tasks/edit/:id", async (req,res) => {
+// Edit a task
+app.post("/tasks/edit/:id", async (req,res) => {
   const id = req.params.id;
-  const task = req.body.task;
-  const dueDate = req.body.dueDate;
-  const status = req.body.status;
-
   try {
-    const response = await axios.put(`${API_URL}/tasks/${id}`, {
-      task: task,
-      dueDate: dueDate,
-      status: status,
-     });
+    const response = await axios.patch(`${API_URL}/tasks/edit/${id}`, req.body);
      const result = response.data;
-     res.render();
+     console.log(result);
+     res.redirect("/");
   } catch (error) {
     console.error("Failed to update task", error.message);
   }
 });
 
-app.post("tasks/delete/:id", async (req, res) => {
+// Delete a task 
+app.post("/tasks/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const response = await axios.delete(`${API_URL}/tasks/${id}`);
+    const result = response.data;
+    console.log(result);
+    res.redirect("/");
   } catch (error) {
     console.error("Failed to delete task", error.message);
   }
