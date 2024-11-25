@@ -4,7 +4,14 @@ import bodyParser from "body-parser";
 const app = express();
 const port = 4000;
 
-const tasks = [];
+const tasks = [
+{
+  id: 1,
+  title: "Get Rich",
+  description: "Your family has been struggling for survival for long, help the situation!",
+  dueDate: "2024-11-24"
+},
+];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -14,8 +21,15 @@ app.get("/tasks", (req, res)=> {
 });
 
 app.get("/tasks/:id", (req, res) => {
-  const task = tasks.find(task => task.id === parseInt(req.params.id));
-  res.json(task);
+  const id = req.params.id
+  const task = tasks.find(task => task.id === parseInt(id));
+  if (!task) {
+    res.json(task);
+  }else {
+    res
+      .status(404)
+      .json({error: `No task found wiith id: ${id}`})
+  }
 });
 
 app.post("/tasks", (req, res) => {
@@ -31,15 +45,22 @@ app.post("/tasks", (req, res) => {
 });
 
 app.put("/tasks/:id", (req, res) => {
+  const id = parseInt(req.params.id)
   const index = tasks.findIndex(task => task.id === id);
-  const updateTask = {
-    id: parseInt(req.params.id),
-    title: req.body.title || tasks[index].title,
-    description: req.body.description || tasks[index].description,
-    dueDate: req.body.dueDate || tasks[index].dueDate
-  };
-  tasks[index] = updateTask;
-  res.json(tasks[index]);
+  if (index > -1) {
+    const updateTask = {
+      id: id,
+      title: req.body.title || tasks[index].title,
+      description: req.body.description || tasks[index].description,
+      dueDate: req.body.dueDate || tasks[index].dueDate
+    };
+    tasks[index] = updateTask;
+    res.json(tasks[index]);
+  } else {
+    res
+      .status(404)
+      .json({error: `No task with id: ${id} `});
+  }
 });
 
 app.delete("/tasks/:id", (req, res) => {
@@ -51,7 +72,7 @@ app.delete("/tasks/:id", (req, res) => {
   }else {
     res
     .sendStatus(404)
-    .json(`No task found with id: ${id}`);
+    .json({error: `No task found with id: ${id}`});
   } 
 });
 
